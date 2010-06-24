@@ -1,6 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ctype="Workbench" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/LDAP.cs" ctype="Workbench">
+    <Files>
+      <File FileName="src/LDAP.cs" Line="366" Column="25" />
+      <File FileName="src/StringExtensions.cs" Line="30" Column="30" />
+      <File FileName="src/LDAPUser.cs" Line="31" Column="19" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
