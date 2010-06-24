@@ -1,0 +1,9 @@
+#labels example
+The code in this library should make it easier to connect to eDirectory with LDAP. The classes within this library will save you from having to understand how the data is being stored in eDirectory. Some of the attributes, while not complex, are confusing and must be re-invented each time.
+
+= Examples of the code to connect to eDirectory and interact with the objects =
+
+Add your content here.
+
+
+= How to retrieve user objects =
