@@ -6,7 +6,7 @@
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{00CD1C5F-6A4F-45F1-9E32-DAFEF181C6AC}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>sharpnldap</RootNamespace>
     <AssemblyName>sharpnldap</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -15,7 +15,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\builds\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\builds\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -54,6 +54,16 @@
     <Compile Include="src\LDAPObject.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lib\Novell.Directory.Ldap.dll" />
+    <EmbeddedResource Include="lib\Novell.Directory.Ldap.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Novell.Directory.Ldap, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Novell.Directory.Ldap.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System" />
+    <Reference Include="Mono.Security" />
   </ItemGroup>
 </Project>
