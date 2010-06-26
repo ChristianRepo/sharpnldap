@@ -30,10 +30,8 @@
 using System.Collections.Generic;
 using System;
 
-namespace ZENReports
+namespace sharpnldap.util
 {
-
-
 	public static class ZFDAppUtils
 	{
 		/// <summary>

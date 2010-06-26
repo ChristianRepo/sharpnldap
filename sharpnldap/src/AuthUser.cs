@@ -29,7 +29,7 @@
 //
 using System;
 
-namespace ZENReports
+namespace sharpnldap
 {
 	/// <summary>
 	/// This object class acts as the admin user for the whole package
@@ -40,68 +40,13 @@ namespace ZENReports
 	/// </summary>
 	public class AuthUser
 	{
-		private string username;
-		private string password;
-		private string ldaphost;
-		private int ldapport;
-		private string basedn;
-		private int ldaps;
-		private bool secureLDAP;
 		
-		public void setSecureLDAP(bool b) {
-			secureLDAP = b;
-		}
-		
-		public bool getSecureLDAP() {
-			return secureLDAP;
-		}
-		
-		public int getLDAPSPort() {
-			return ldaps;
-		}
-		
-		public void setLDAPSPort(int s) {
-			ldaps = s;
-		}
-		
-		public string getBaseDN() {
-			return basedn;
-		}
-		
-		public void setBaseDN(string dn) {
-			basedn = dn;
-		}
-		
-		public void setUsername(string u) {
-			username = u;
-		}
-		
-		public string getUsername() {
-			return username;
-		}
-		public void setPassword(string p) {
-			password = p;
-		}
-		
-		public string getPassword() {
-			return password;
-		}
-		
-		public void setLDAPhost(string l) {
-			ldaphost = l;
-		}
-		
-		public void setLDAPport(int p) {
-			ldapport = p;
-		}
-		
-		public int getLDAPport() {
-			return ldapport;
-		}
-		
-		public string getLDAPhost() {
-			return ldaphost;
-		}
+		public string 	USERNAME 	{ get;set; }
+		public string 	PASSWORD 	{ get;set; }
+		public string 	LDAP_HOST 	{ get;set; }
+		public int 		LDAP_PORT 	{ get;set; }
+		public string 	BASE_DN		{ get;set; }
+		public bool 	LDAP_SECURE		{ get;set; }
 		
 		/// <summary>
 		/// Constructor

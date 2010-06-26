@@ -30,22 +30,26 @@
 using System;
 using System.ComponentModel;
 
-namespace ZENReports
+namespace sharpnldap
 {
-		/// <summary>
-		/// A enumeration of attribute names that eDirectory uses
-		/// Hopefully this will save someone else from a mistype or having to know the attribute names
-		/// </summary>
-		public enum ATTRNAME {
-			[DescriptionAttribute("APPBACKLINK")]APPBACKLINK,
-			[DescriptionAttribute("GIVENNAME")]GIVENNAME,
-			[DescriptionAttribute("MEMBERS")]MEMBERS,
-			[DescriptionAttribute("APPASSOCIATIONS")]APPASSOCIATIONS,
-			[DescriptionAttribute("MEMBEROF")]MEMBEROF,
-			[DescriptionAttribute("SN")]SN,
-			[DescriptionAttribute("CN")]CN,
-			[DescriptionAttribute("NDSHOMEDIRECTORY")]NDSHOMEDIRECTORY,
-			[DescriptionAttribute("MAIL")]MAIL,
-			[DescriptionAttribute("TITLE")]TITLE		
-		}
+	/// <summary>
+	/// A enumeration of attribute names that eDirectory uses
+	/// Hopefully this will save someone else from a mistype or having to know the attribute names
+	/// </summary>
+	public enum ATTRNAME {
+		[DescriptionAttribute("APPBACKLINK")]APPBACKLINK,
+		[DescriptionAttribute("GIVENNAME")]GIVENNAME,
+		[DescriptionAttribute("MEMBERS")]MEMBERS,
+		[DescriptionAttribute("APPASSOCIATIONS")]APPASSOCIATIONS,
+		[DescriptionAttribute("MEMBEROF")]MEMBEROF,
+		[DescriptionAttribute("SN")]SN,
+		[DescriptionAttribute("CN")]CN,
+		[DescriptionAttribute("NDSHOMEDIRECTORY")]NDSHOMEDIRECTORY,
+		[DescriptionAttribute("MAIL")]MAIL,
+		[DescriptionAttribute("DEPARTMENTNUMBER")]DEPARTMENTNUMBER,
+		[DescriptionAttribute("DISPLAYNAME")]DISPLAYNAME,
+		[DescriptionAttribute("EMPLOYEETYPE")]EMPLOYEETYPE,
+		[DescriptionAttribute("HOMEPHONE")]HOMEPHONE,
+		[DescriptionAttribute("TITLE")]TITLE		
+	}
 }

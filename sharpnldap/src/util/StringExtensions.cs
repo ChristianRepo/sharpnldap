@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Globalization;
 
-namespace ZENReports
+namespace sharpnldap.util
 {
 	/// <summary>
 	/// Really cool string functions

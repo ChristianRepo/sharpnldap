@@ -29,7 +29,7 @@
 //
 using System;
 
-namespace ZENReports
+namespace sharpnldap
 {
 		/// <summary>
 		/// enumeration of eDirectory types that this class supports

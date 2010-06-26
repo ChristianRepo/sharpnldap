@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace ZENReports
+namespace sharpnldap.util
 {
 	public enum Level { DEBUG, INFO, WARN, ERROR, FATAL };
 
