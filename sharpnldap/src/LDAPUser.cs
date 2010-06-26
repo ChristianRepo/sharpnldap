@@ -50,6 +50,12 @@ namespace ZENReports
 		private string _ndsHomeVol;
 		private string _ndsHomePath;
 		private string _ndsHomeServer;
+		private string _title;
+		
+		/// <summary>
+		/// Sets the user title attribute
+		/// </summary>
+		public string Title {get;set;}
 		
 		/// <summary>
 		/// Parses the eDirectory attribute ndsHomeDirectory which contains the 
@@ -106,7 +112,11 @@ namespace ZENReports
 		/// A <see cref="System.String"/>
 		/// </returns>
 		public string getUncHome () {
-			if ((_ndsHomeServer == null) | (_ndsHomeVol == null) | (_ndsHomePath == null))
+			if ((_ndsHomeServer == null) || (_ndsHomeVol == null) || (_ndsHomePath == null))
+				return null;
+			
+			//HACK: because some home directories will be set to a users folder instead of their folder
+			if ( _ndsHomePath.Contains(@"\") == false )
 				return null;
 			
 			System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -115,8 +125,32 @@ namespace ZENReports
 			sb.Append(@"\");
 			sb.Append(_ndsHomeVol);
 			sb.Append(@"\");
-			sb.Append(_ndsHomePath);
+			sb.Append(removeLeadingSlash(_ndsHomePath));
+			
 			return sb.ToString();
+		}
+		
+		/// <summary>
+		/// Some of the ndsHomeDirectory paths contain an extra backslash (\)
+		/// These need to be stripped if so.
+		/// 
+		/// Returns a empty string if null, does NOT return null
+		/// </summary>
+		/// <param name="s">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
+		private string removeLeadingSlash(string s) {
+			
+			if (StringExtensions.IsEmpty(s))
+				return "";
+			
+			if(s.StartsWith(@"\"))
+				return StringExtensions.SubstringAfter(s, @"\");
+			else
+				return s;			
 		}
 
 		/// <summary>

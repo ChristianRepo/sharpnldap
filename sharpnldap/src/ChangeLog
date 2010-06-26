@@ -1,0 +1,7 @@
+2010-06-26  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* LDAP.cs:
+	* AuthUser.cs:
+	* LDAPUser.cs:
+	* StringExtensions.cs: 
+
