@@ -46,5 +46,6 @@ namespace ZENReports
 			[DescriptionAttribute("CN")]CN,
 			[DescriptionAttribute("NDSHOMEDIRECTORY")]NDSHOMEDIRECTORY,
 			[DescriptionAttribute("MAIL")]MAIL
+			[DescriptionAttribute("TITLE")]TITLE		
 		}
 }

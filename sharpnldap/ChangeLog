@@ -1,3 +1,7 @@
+2010-06-26  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* src/ATTRNAME.cs: title attribute
+
 2010-06-24  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* sharpnldap.sln:
