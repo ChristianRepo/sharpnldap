@@ -79,27 +79,20 @@ namespace sharpnldap
 			}
 			else {
 				string[] a = Regex.Split(s, @",");
-				Logger.Debug ("Split NdsHomeDirPath {0}", a[0]);
-				
 				string b = stripFQN(a[0]); // remove the cn=
 				string[] c = Regex.Split(b, @"_"); // remove the volume from the server
 				
-				if (c[0] != null) { // get the server from the string
-					Logger.Debug("ndsHomeServer {0}", c[0]);
+				if (c[0] != null) // get the server from the string
 					ndsHomeServer = c[0];
-				}
-				if (c[1] != null) { // get volume from string
-					Logger.Debug("ndsHomeVol {0}", c[1]);
+				
+				if (c[1] != null) // get volume from string
 					ndsHomeVolume = c[1];
-				}
 				
 				/* get folder and path from string.
 				 * TODO: Really sloppy. should just get last of the string values
 				 */
 				string p = s.SubstringAfter("#").SubstringAfter("#");
-				Logger.Debug("Sub after {0}", p);
 				ndsHomePath = p;
-				
 				ndsHomeDirectory = s;
 			}
 			
@@ -129,7 +122,6 @@ namespace sharpnldap
 			sb.Append(ndsHomeVolume);
 			sb.Append(@"\");
 			sb.Append(removeLeadingSlash(ndsHomePath));
-			
 			return sb.ToString();
 		}
 		
