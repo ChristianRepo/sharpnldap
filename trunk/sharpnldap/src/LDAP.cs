@@ -87,14 +87,22 @@ namespace ZENReports
 		/// <returns>
 		/// A <see cref="Dictionary<System.String, LDAPUser>"/>
 		/// </returns>
-		public Dictionary<string, LDAPUser> findUniqUsers(string cn) {
+		public Dictionary<string, LDAPUser> findUniqUsers(string cn, bool subsearch) {
 			
+			int searchLevel = 0;
+			if (subsearch)
+				searchLevel = LdapConnection.SCOPE_SUB;
+			else
+				searchLevel = LdapConnection.SCOPE_ONE;
+					
+			Logger.Debug("searching wth a scope level of {0}", searchLevel);
+				
 			Dictionary<string, LDAPUser> d = new Dictionary<string, LDAPUser>();
 			if (StringExtensions.IsEmpty(cn))
 				cn = "*";
 			
 			LdapSearchResults lsc=lc.Search(authUser.getBaseDN(),
-				   LdapConnection.SCOPE_SUB,
+				   searchLevel,
 				   "(&(objectClass=user)(cn=" + cn + "))", //e.g. (&(objectClass=user)(cn=jared*))
 				   null,
 				   false);
@@ -139,7 +147,8 @@ namespace ZENReports
 			if (lsr.hasMore() == false) {
 				throw new Exception("No matching users found for " + cn);
 			}
-			else {
+			else 
+			{
 				while (lsr.hasMore())
 				{
 					LDAPUser user;
@@ -281,9 +290,8 @@ namespace ZENReports
 		/// </returns>
 		private bool ReqLDAPAuthVAL() {
 			if (StringExtensions.IsEmpty(_ldapAdminPassword) 
-			    || StringExtensions.IsEmpty(_ldapAdminUser)
-			    || StringExtensions.IsEmpty(_ldapHostAddr)
-			    )
+			    || (StringExtensions.IsEmpty(_ldapAdminUser)) 
+			    || (StringExtensions.IsEmpty(_ldapHostAddr)))
 			    return false;
 			return true;
 		}			    
@@ -335,9 +343,12 @@ namespace ZENReports
 			else {
 				if (lc.Connected == false) {
 					
-					Logger.Debug("Opening unsecure LDAP connection {0}", _ldapHostAddr);
+					Logger.Debug("Opening unsecure LDAP connection {0}:{1}", _ldapHostAddr , _ldapHostPort);
+					Logger.Debug("Will attempt to bind with {0} / {1}", _ldapAdminUser, _ldapAdminPassword);
 					//Connect function will create a socket connection to the server
 					lc.Connect(_ldapHostAddr,_ldapHostPort);
+					
+					Logger.Debug("Successfully made a connection to {0}:{1}", _ldapHostAddr , _ldapHostPort);
 	
 					//Bind function will Bind the user object credentials to the Server
 					lc.Bind(_ldapAdminUser,_ldapAdminPassword);	

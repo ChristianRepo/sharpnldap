@@ -40,13 +40,13 @@ namespace ZENReports
 	/// </summary>
 	public class AuthUser
 	{
-		private static string username;
-		private static string password;
-		private static string ldaphost;
-		private static int ldapport;
-		private static string basedn;
-		private static int ldaps;
-		private static bool secureLDAP;
+		private string username;
+		private string password;
+		private string ldaphost;
+		private int ldapport;
+		private string basedn;
+		private int ldaps;
+		private bool secureLDAP;
 		
 		public void setSecureLDAP(bool b) {
 			secureLDAP = b;

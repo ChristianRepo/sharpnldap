@@ -1,11 +1,31 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="src/LDAP.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/ATTRNAME.cs" ctype="Workbench">
     <Files>
       <File FileName="src/LDAP.cs" Line="366" Column="25" />
       <File FileName="src/StringExtensions.cs" Line="30" Column="30" />
       <File FileName="src/LDAPUser.cs" Line="31" Column="19" />
+      <File FileName="src/AttributeUtil.cs" Line="52" Column="72" />
+      <File FileName="src/ATTRNAME.cs" Line="48" Column="39" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="sharpnldap" expanded="True">
+            <Node name="src" expanded="True" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="ConnectionManagerPad">
+        <State selected="True" />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
