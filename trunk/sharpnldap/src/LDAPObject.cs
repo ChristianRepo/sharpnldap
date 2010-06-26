@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ZENReports
+namespace sharpnldap
 {
 	/// <summary>
 	/// Abstract class representing eDirectory objects.

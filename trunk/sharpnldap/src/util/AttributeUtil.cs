@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using Novell.Directory.Ldap;
 
-namespace ZENReports
+namespace sharpnldap.util
 {
 	public static class AttributeUtil
 	{
@@ -49,13 +49,15 @@ namespace ZENReports
 		/// <returns>
 		/// A <see cref="System.String"/>
 		/// </returns>
-		public static string getAttr(LdapAttributeSet attrSet, string attr) {
-			Logger.Debug("Requesting Attribute value of {0}", attrSet.getAttribute(attr));
-			if (attrSet.getAttribute(attr) == null)
+		public static string getAttr(LdapAttributeSet attrSet, ATTRNAME attr) {
+			string sAttr = attr.ToString();
+			Logger.Debug("Requesting Attribute value of {0}", attrSet.getAttribute(sAttr));
+			
+			if (attrSet.getAttribute(sAttr) == null)
 				return null;
 			else {
-				Logger.Debug(" Attribute {0} -> {1}", attr, attrSet.getAttribute(attr).StringValue);			
-				return attrSet.getAttribute(attr).StringValue;
+				Logger.Debug(" Attribute {0} -> {1}", sAttr, attrSet.getAttribute(sAttr).StringValue);			
+				return attrSet.getAttribute(sAttr).StringValue;
 			}
 		}	
 		/// <summary>
@@ -88,18 +90,26 @@ namespace ZENReports
 				LdapAttribute attribute=(LdapAttribute)ienum.Current;		
 				Logger.Debug("Parsing {0}", attribute);
 				
-				if (attribute.Name.ToUpper().Equals(ATTRNAME.NDSHOMEDIRECTORY.ToString()))
-					user.parseNdsHomeDirPath(AttributeUtil.getAttr(attrSet, ATTRNAME.NDSHOMEDIRECTORY.ToString()));	
+				if (AttrEquals(attribute, ATTRNAME.NDSHOMEDIRECTORY))
+					user.parseNdsHomeDirPath(AttributeUtil.getAttr(attrSet, ATTRNAME.NDSHOMEDIRECTORY));	
 				
-				if (attribute.Name.ToUpper().Equals(ATTRNAME.SN.ToString()))
-					user.setSN(AttributeUtil.getAttr(attrSet, ATTRNAME.SN.ToString()));
+				if (AttrEquals(attribute, ATTRNAME.SN))
+					user.setSN(AttributeUtil.getAttr(attrSet, ATTRNAME.SN));
 								
-				if (attribute.Name.ToUpper().Equals(ATTRNAME.GIVENNAME.ToString()))
-					user.setGivenName(AttributeUtil.getAttr(attrSet, ATTRNAME.GIVENNAME.ToString()));
+				if (AttrEquals(attribute, ATTRNAME.GIVENNAME))
+					user.setGivenName(AttributeUtil.getAttr(attrSet, ATTRNAME.GIVENNAME));
 				
 			}
 			return user;	
 		}		
+		
+		private static bool AttrEquals(LdapAttribute attr, ATTRNAME name) {
+			if (attr.Name.ToUpper().Equals(name.ToString()))
+				return true;
+			return false;
+		}
+			
+			
 		/// <summary>
 		/// Parses a group objects attributes building the LDAPGroup object
 		/// Requires the group objects attribute set and the DN.
@@ -125,13 +135,13 @@ namespace ZENReports
 			while(ienum.MoveNext())
 			{				
 				LdapAttribute attribute=(LdapAttribute)ienum.Current;			
-				if (attribute.Name.ToUpper().Equals(ATTRNAME.SN.ToString()))
-					grp.setSN(AttributeUtil.getAttr(attrSet, ATTRNAME.SN.ToString()));
+				if (AttrEquals(attribute, (ATTRNAME.SN)))
+					grp.setSN(AttributeUtil.getAttr(attrSet, ATTRNAME.SN));
 				
-				if (attribute.Name.ToUpper().Equals(ATTRNAME.CN.ToString()))
-					grp.setCN(AttributeUtil.getAttr(attrSet, ATTRNAME.CN.ToString()));				
+				if (AttrEquals(attribute, (ATTRNAME.CN)))
+					grp.setCN(AttributeUtil.getAttr(attrSet, ATTRNAME.CN));				
 				
-				if (attribute.Name.ToUpper().Equals(ATTRNAME.MEMBERS.ToString()))
+				if (AttrEquals(attribute, ATTRNAME.MEMBERS))
 					grp.setGroupMembers( AttributeUtil.getListofAttr(attrSet, ATTRNAME.MEMBERS.ToString()));
 			}
 			return grp;
@@ -161,7 +171,7 @@ namespace ZENReports
 			while(ienum.MoveNext())
 			{				
 				LdapAttribute attribute=(LdapAttribute)ienum.Current;			
-				if (attribute.Name.ToUpper().Equals(ATTRNAME.APPASSOCIATIONS))
+				if (AttrEquals(attribute, ATTRNAME.APPASSOCIATIONS))
 					app.setAssociations(AttributeUtil.getListofAttr(attrSet, ATTRNAME.APPASSOCIATIONS.ToString()));
 				
 			}
@@ -184,25 +194,24 @@ namespace ZENReports
 			
 			if (attrSet.getAttribute(attr) == null)
 				return null;
-			else {
-				List<string> values = null;
-				System.Collections.IEnumerator ienum =  attrSet.GetEnumerator();
-				
-				while(ienum.MoveNext())
-				{
-					LdapAttribute attribute=(LdapAttribute)ienum.Current;
-					if (attribute.Name.ToUpper().Equals(attr)) {
-						values = new List<string>(attrSet.getAttribute(attr).StringValueArray.Length);
-						values.AddRange(attrSet.getAttribute(attr).StringValueArray); // take the values from the array
-						
-						if (Logger.LogLevel == Level.DEBUG) {
-							foreach (string x in values) //debug purposes
-							Logger.Debug("Values in {0} list {1}", attr, x);
-						}
+
+			List<string> values = null;
+			System.Collections.IEnumerator ienum =  attrSet.GetEnumerator();
+			
+			while(ienum.MoveNext())
+			{
+				LdapAttribute attribute=(LdapAttribute)ienum.Current;
+				if (attribute.Name.ToUpper().Equals(attr)) {
+					values = new List<string>(attrSet.getAttribute(attr).StringValueArray.Length);
+					values.AddRange(attrSet.getAttribute(attr).StringValueArray); // take the values from the array
+					
+					if (Logger.LogLevel == Level.DEBUG) {
+						foreach (string x in values) //debug purposes
+						Logger.Debug("Values in {0} list {1}", attr, x);
 					}
 				}
-			return values;
 			}
+			return values;
 		}		
 	}
 }

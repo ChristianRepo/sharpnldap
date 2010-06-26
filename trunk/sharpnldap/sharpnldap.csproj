@@ -35,23 +35,25 @@
   <ItemGroup>
     <Folder Include="src\" />
     <Folder Include="lib\" />
+    <Folder Include="src\util\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\LDAP.cs" />
-    <Compile Include="src\StringExtensions.cs" />
     <Compile Include="src\LDAPUser.cs" />
-    <Compile Include="src\AttributeUtil.cs" />
     <Compile Include="src\AuthUser.cs" />
     <Compile Include="src\ATTRNAME.cs" />
-    <Compile Include="src\ZFDAppUtils.cs" />
     <Compile Include="src\ZFDNALFlags.cs" />
     <Compile Include="src\LDAPObjectType.cs" />
-    <Compile Include="src\EnumUtils.cs" />
-    <Compile Include="src\Logger.cs" />
     <Compile Include="src\LDAPContainer.cs" />
     <Compile Include="src\LDAPGroup.cs" />
     <Compile Include="src\LDAPZFDApp.cs" />
     <Compile Include="src\LDAPObject.cs" />
+    <Compile Include="src\LDAPConnOpts.cs" />
+    <Compile Include="src\util\AttributeUtil.cs" />
+    <Compile Include="src\util\EnumUtils.cs" />
+    <Compile Include="src\util\Logger.cs" />
+    <Compile Include="src\util\StringExtensions.cs" />
+    <Compile Include="src\util\ZFDAppUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="lib\Novell.Directory.Ldap.dll" />

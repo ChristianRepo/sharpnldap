@@ -31,7 +31,9 @@ using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace ZENReports
+using sharpnldap.util;
+
+namespace sharpnldap
 {
 
 	/// <summary>
@@ -45,12 +47,15 @@ namespace ZENReports
 		private List<string> memberOf;
 		/// <summary>
 		/// Contains the value which is read directly from eDirectory
-		/// </summary>
-		private string _ndsHomeDirectory;
-		private string _ndsHomeVol;
-		private string _ndsHomePath;
-		private string _ndsHomeServer;
-		private string _title;
+		/// </summary>	
+		public string ndsHomeDirectory 	{ get;set; }
+		public string ndsHomeVolume		{ get;set; }
+		public string ndsHomePath		{ get;set; }
+		public string ndsHomeServer		{ get;set; }
+		public string DEPARTMENTNUMBER	{ get;set; }
+		public string DISPLAYNAME		{ get;set; }
+		public string EMPLOYEETYPE		{ get;set; }
+		public string HOMEPHONE			{ get;set; }
 		
 		/// <summary>
 		/// Sets the user title attribute
@@ -71,23 +76,21 @@ namespace ZENReports
 			
 			if ((s == null) || (s.Length == 0)) {
 				Logger.Debug("Passed a null or empty ndshomedirectorypath");
-				_ndsHomeDirectory = null;
 			}
 			else {
 				string[] a = Regex.Split(s, @",");
 				Logger.Debug ("Split NdsHomeDirPath {0}", a[0]);
-				
 				
 				string b = stripFQN(a[0]); // remove the cn=
 				string[] c = Regex.Split(b, @"_"); // remove the volume from the server
 				
 				if (c[0] != null) { // get the server from the string
 					Logger.Debug("ndsHomeServer {0}", c[0]);
-					_ndsHomeServer = c[0];
+					ndsHomeServer = c[0];
 				}
 				if (c[1] != null) { // get volume from string
 					Logger.Debug("ndsHomeVol {0}", c[1]);
-					_ndsHomeVol = c[1];
+					ndsHomeVolume = c[1];
 				}
 				
 				/* get folder and path from string.
@@ -95,9 +98,9 @@ namespace ZENReports
 				 */
 				string p = s.SubstringAfter("#").SubstringAfter("#");
 				Logger.Debug("Sub after {0}", p);
-				_ndsHomePath = p;
+				ndsHomePath = p;
 				
-				_ndsHomeDirectory = s;
+				ndsHomeDirectory = s;
 			}
 			
 		}
@@ -112,20 +115,20 @@ namespace ZENReports
 		/// A <see cref="System.String"/>
 		/// </returns>
 		public string getUncHome () {
-			if ((_ndsHomeServer == null) || (_ndsHomeVol == null) || (_ndsHomePath == null))
+			if ((ndsHomeServer == null) || (ndsHomeVolume == null) || (ndsHomePath == null))
 				return null;
 			
 			//HACK: because some home directories will be set to a users folder instead of their folder
-			if ( _ndsHomePath.Contains(@"\") == false )
+			if ( ndsHomePath.Contains(@"\") == false )
 				return null;
 			
 			System.Text.StringBuilder sb = new System.Text.StringBuilder();
 			sb.Append( @"\\");
-			sb.Append(_ndsHomeServer);
+			sb.Append(ndsHomeServer);
 			sb.Append(@"\");
-			sb.Append(_ndsHomeVol);
+			sb.Append(ndsHomeVolume);
 			sb.Append(@"\");
-			sb.Append(removeLeadingSlash(_ndsHomePath));
+			sb.Append(removeLeadingSlash(ndsHomePath));
 			
 			return sb.ToString();
 		}
@@ -154,16 +157,6 @@ namespace ZENReports
 		}
 
 		/// <summary>
-		/// Returns the actual ndsHomeDirectory attribute value that was associated with the user.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="System.String"/>
-		/// </returns>
-		public string getNdsHomeDirectory() {
-			return _ndsHomeDirectory;
-		}
-		
-		/// <summary>
 		/// Strings the cn= or whatever object type that is normally specified in FQN LDAP syntax strings
 		/// returns the string of whatever was passed after the = character
 		/// </summary>
@@ -180,36 +173,6 @@ namespace ZENReports
 		}
 		
 		/// <summary>
-		/// Returns the path of the users home directory. This does include the users home folder name
-		/// </summary>
-		/// <returns>
-		/// A <see cref="System.String"/>
-		/// </returns>
-		public string getNdsHomePath() {
-			return _ndsHomePath;
-		}
-		
-		/// <summary>
-		/// Returns the users volume that holds the users home directory
-		/// </summary>
-		/// <returns>
-		/// A <see cref="System.String"/>
-		/// </returns>
-		public string getNdsHomeVol() {
-			return _ndsHomeVol;
-		}
-		
-		/// <summary>
-		/// Returns the server hold the users home directory volume
-		/// </summary>
-		/// <returns>
-		/// A <see cref="System.String"/>
-		/// </returns>
-		public string getNdsHomeServer() {
-			return _ndsHomeServer;
-		}
-		
-		/// <summary>
 		/// Sets what group objects the user is a member of 
 		/// This clears any preexisting group members from the list
 		/// </summary>
@@ -219,6 +182,7 @@ namespace ZENReports
 		public void setGroupMemberOf(List<string> mbrs) {
 			this.memberOf = mbrs;
 		}
+		
 		/// <summary>
 		/// Adds a group object to the list of group memberships
 		/// </summary>

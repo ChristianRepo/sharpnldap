@@ -31,7 +31,7 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace ZENReports
+namespace sharpnldap.util
 {
 	public class EnumUtils
 	{

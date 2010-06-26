@@ -37,22 +37,18 @@ using Mono.Security.Cryptography;
 using System.ComponentModel;
 using System.Reflection;
 
+using sharpnldap.util;
 
-namespace ZENReports
+namespace sharpnldap
 {
 	public class LDAP
 	{
-		LdapConnection lc;
-		private string _ldapHostAddr;
-		private int _ldapHostPort;
-		private int _ldapsHostPort;
-		private string _ldapAdminUser;
-		private string _ldapAdminPassword;
+		private LdapConnection lc;
 		
 		/// <summary>
 		/// Should we connect over Secure LDAP TLS?
 		/// </summary>
-		private bool secureLDAP = false;
+		//private bool secureLDAP = false;
 		
 		/// <summary>
 		/// Does the user accept the SSL certificate and want to make the secure connection?
@@ -64,17 +60,25 @@ namespace ZENReports
 		/// </summary>
 		protected int bindCount = 0;				
 		private AuthUser authUser;
-
-		public LDAP (AuthUser AdminUser)
-		{
-			this.authUser = AdminUser;
-			this._ldapAdminPassword = AdminUser.getPassword();
-			this._ldapAdminUser = AdminUser.getUsername();
-			this._ldapHostAddr = AdminUser.getLDAPhost();
-			this._ldapHostPort = AdminUser.getLDAPport();
-			this._ldapsHostPort = AdminUser.getLDAPSPort();
-			this.secureLDAP = AdminUser.getSecureLDAP();
-			lc = CreateConnection();
+		
+		/// <summary>
+		/// Empty constructor
+		/// </summary>
+		public LDAP () {}
+		
+		/// <summary>
+		/// Create an authenticated connection to the LDAP host specified in the AuthUser object
+		/// </summary>
+		/// <param name="auth">
+		/// A <see cref="AuthUser"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="LdapConnection"/>
+		/// </returns>
+		public LdapConnection connect(AuthUser auth) {
+			this.authUser = auth;
+			this.lc = CreateConnection();
+			return this.lc;
 		}
 		
 		/// <summary>
@@ -87,23 +91,17 @@ namespace ZENReports
 		/// <returns>
 		/// A <see cref="Dictionary<System.String, LDAPUser>"/>
 		/// </returns>
-		public Dictionary<string, LDAPUser> findUniqUsers(string cn, bool subsearch) {
-			
-			int searchLevel = 0;
-			if (subsearch)
-				searchLevel = LdapConnection.SCOPE_SUB;
-			else
-				searchLevel = LdapConnection.SCOPE_ONE;
+		public Dictionary<string, LDAPUser> findUniqUsers(string cn, LDAPConnOpts lco) {
 					
-			Logger.Debug("searching wth a scope level of {0}", searchLevel);
+			Logger.Debug("searching wth a scope level of {0}", lco);
 				
 			Dictionary<string, LDAPUser> d = new Dictionary<string, LDAPUser>();
 			if (StringExtensions.IsEmpty(cn))
 				cn = "*";
 			
-			LdapSearchResults lsc=lc.Search(authUser.getBaseDN(),
-				   searchLevel,
-				   "(&(objectClass=user)(cn=" + cn + "))", //e.g. (&(objectClass=user)(cn=jared*))
+			LdapSearchResults lsc=lc.Search(authUser.BASE_DN,
+				   (int)lco,
+				   "(&(objectClass=Person)(cn=" + cn + "))", //e.g. (&(objectClass=user)(cn=jared*))
 				   null,
 				   false);
 			
@@ -117,7 +115,7 @@ namespace ZENReports
 					nextEntry = lsc.next();
 					Logger.Debug("Next Entry {0}", nextEntry.DN);	
 					user = AttributeUtil.iterUsrAttrs(nextEntry.getAttributeSet(), nextEntry.DN);
-					d.Add(AttributeUtil.getAttr(nextEntry.getAttributeSet(), "cn"),user);
+					d.Add(AttributeUtil.getAttr(nextEntry.getAttributeSet(), ATTRNAME.CN),user);
 				}				
 				catch (ArgumentException ae)
 				{
@@ -135,11 +133,13 @@ namespace ZENReports
 			return d;
 		}
 		
-		public List<LDAPUser> findUsers(string cn) {
+		public List<LDAPUser> findUsers(string cn, string baseDN, LDAPConnOpts lco) {
 			List<LDAPUser> users = new List<LDAPUser>();
-			LdapSearchResults lsr = lc.Search(
-			                                  authUser.getBaseDN(),
-			                                  LdapConnection.SCOPE_SUB,
+			if (StringExtensions.IsEmpty(cn))
+				cn = "*";
+			
+			LdapSearchResults lsr = lc.Search(baseDN,
+			                                  (int)lco,
 			                                  "(&(objectClass=user)(cn=" + cn + "))",
 			                                  null,
 			                                  false
@@ -181,14 +181,14 @@ namespace ZENReports
 		/// <returns>
 		/// A <see cref="Dictionary<System.String, LDAPGroup>"/>
 		/// </returns>
-		public Dictionary<string, LDAPGroup> findUniqGroups(string cn) {
+		public Dictionary<string, LDAPGroup> findUniqGroups(string cn, LDAPConnOpts lco) {
 			
 			Dictionary<string, LDAPGroup> d = new Dictionary<string, LDAPGroup>();
 			if (StringExtensions.IsEmpty(cn))
 				cn = "*";
 			
-			LdapSearchResults lsc=lc.Search(authUser.getBaseDN(),
-				   LdapConnection.SCOPE_SUB,
+			LdapSearchResults lsc=lc.Search(authUser.BASE_DN,
+				   (int)lco,
 				   "(&(objectClass=group)(cn=" + cn + "))", //e.g. (&(objectClass=user)(cn=jared*))
 				   null,
 				   false);
@@ -203,7 +203,7 @@ namespace ZENReports
 					nextEntry = lsc.next();
 					Logger.Debug("Next Entry {0}", nextEntry.DN);	
 					grp = AttributeUtil.iterGroupAttrs(nextEntry.getAttributeSet(), nextEntry.DN);
-					d.Add(AttributeUtil.getAttr(nextEntry.getAttributeSet(), "cn"),grp);
+					d.Add(AttributeUtil.getAttr(nextEntry.getAttributeSet(), ATTRNAME.CN),grp);
 				}				
 				catch (ArgumentException ae)
 				{
@@ -233,13 +233,15 @@ namespace ZENReports
 		/// <returns>
 		/// A <see cref="List<LDAPUser>"/>
 		/// </returns>
-		public List<LDAPZFDApp> FindZFDApps(string ldapbase, string ldapSearchSyntax)
+		public List<LDAPZFDApp> FindZFDApps(string cn, string baseDN, LDAPConnOpts lco)
 		{	
 			List<LDAPZFDApp> apps = new List<LDAPZFDApp>(); 
-			
-			LdapSearchResults lsc=lc.Search(ldapbase,
+			if (StringExtensions.IsEmpty(cn))
+			    cn = "*";
+			    
+			LdapSearchResults lsc=lc.Search(baseDN,
 				   LdapConnection.SCOPE_SUB,
-				   ldapSearchSyntax, //e.g. (&(objectClass=user)(cn=jared*))
+				   "(&(objectClass=appApplication)(cn=" + cn +"))", //e.g. (&(objectClass=user)(cn=jared*))
 				   null,
 				   false);
 			
@@ -251,22 +253,29 @@ namespace ZENReports
 				try 
 				{
 					nextEntry = lsc.next();
-					Logger.Debug("Next Entry {0}", nextEntry.DN);					
-//					app = new LDAPZFDApp(nextEntry.DN);
+					Logger.Debug("Next Entry {0}", nextEntry.DN);
 					app = AttributeUtil.iterZFDAppAttrs(nextEntry.getAttributeSet(), nextEntry.DN);
 					apps.Add(app);
-					
 				}
 				catch(LdapException e) 
 				{
-					Logger.Error("Error: " + e.LdapErrorMessage);
-					// Exception is thrown, go for next entry
+					Logger.Error("Error: " + e.LdapErrorMessage); // Exception is thrown, go for next entry
 					continue;
 				}
 			}		
 			return apps;
 		}			
 		
+		/// <summary>
+		/// Returns a List<string> of all the members of a specific group.
+		/// The string value is the members DN
+		/// </summary>
+		/// <param name="vals">
+		/// A <see cref="List<System.String>"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="List<System.String>"/>
+		/// </returns>
 		public List<string> getGroupMembers(List<string> vals) {
 			List<string> members = null;
 			LdapConnection ldapConn = CreateConnection();
@@ -289,9 +298,9 @@ namespace ZENReports
 		/// A <see cref="System.Boolean"/>
 		/// </returns>
 		private bool ReqLDAPAuthVAL() {
-			if (StringExtensions.IsEmpty(_ldapAdminPassword) 
-			    || (StringExtensions.IsEmpty(_ldapAdminUser)) 
-			    || (StringExtensions.IsEmpty(_ldapHostAddr)))
+			if (StringExtensions.IsEmpty(authUser.PASSWORD) 
+			    || (StringExtensions.IsEmpty(authUser.LDAP_HOST)) 
+			    || (StringExtensions.IsEmpty(authUser.USERNAME)))
 			    return false;
 			return true;
 		}			    
@@ -317,7 +326,7 @@ namespace ZENReports
 				throw new Exception("Not all the required LDAP parameters exist. " +
 					"We need a username, password and address");
 			
-			if (secureLDAP) { // connect via SSL
+			if (authUser.LDAP_SECURE) { // connect via SSL
 				
 				bindCount++;
 				lc.SecureSocketLayer = true;
@@ -330,29 +339,29 @@ namespace ZENReports
 					throw new Exception("user does not trust SSL Certificates");
 				}
 				if ((lc.Connected == false) && (bHowToProceed)) {
-					Logger.Info("starting secure LDAP connection to {0}:{1}", _ldapHostAddr, _ldapsHostPort);
+					Logger.Info("starting secure LDAP connection to {0}:{1}", authUser.LDAP_HOST, authUser.LDAP_PORT);
 					//Connect function will create a socket connection to the server
-					lc.Connect(_ldapHostAddr,_ldapsHostPort);
+					lc.Connect(authUser.LDAP_HOST,authUser.LDAP_PORT);
 	
-					Logger.Debug("binding to {0}:{1}", _ldapHostAddr, _ldapsHostPort);
+					Logger.Debug("binding to {0}:{1}", authUser.LDAP_HOST, authUser.LDAP_PORT);
 					//Bind function will Bind the user object Credentials to the Server
-					lc.Bind(_ldapAdminUser,_ldapAdminPassword);	
+					lc.Bind(authUser.USERNAME,authUser.PASSWORD);	
 					Logger.Info( " SSL Bind Successful " );
 				}
 			}
 			else {
 				if (lc.Connected == false) {
 					
-					Logger.Debug("Opening unsecure LDAP connection {0}:{1}", _ldapHostAddr , _ldapHostPort);
-					Logger.Debug("Will attempt to bind with {0} / {1}", _ldapAdminUser, _ldapAdminPassword);
+					Logger.Debug("Opening unsecure LDAP connection {0}:{1}", authUser.LDAP_HOST , authUser.LDAP_PORT);
+					Logger.Debug("Attempting Bind");
 					//Connect function will create a socket connection to the server
-					lc.Connect(_ldapHostAddr,_ldapHostPort);
+					lc.Connect(authUser.LDAP_HOST , authUser.LDAP_PORT);
 					
-					Logger.Debug("Successfully made a connection to {0}:{1}", _ldapHostAddr , _ldapHostPort);
+					Logger.Debug("Successfully made a connection to {0}:{1}", lc.Host , lc.Port);
 	
 					//Bind function will Bind the user object credentials to the Server
-					lc.Bind(_ldapAdminUser,_ldapAdminPassword);	
-					Logger.Info("non-ssl LDAP bind successful to {0}:{1}",_ldapHostAddr,_ldapHostPort);
+					lc.Bind(authUser.USERNAME, authUser.PASSWORD);	
+					Logger.Info("non-ssl LDAP bind successful to {0}:{1}",lc.Host,lc.Port);
 				}				
 			}
 			return lc;

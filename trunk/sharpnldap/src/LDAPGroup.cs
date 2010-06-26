@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ZENReports
+namespace sharpnldap
 {
 	/// <summary>
 	/// implementing class of the <see cref="ZENReports.LDAPObject"/>

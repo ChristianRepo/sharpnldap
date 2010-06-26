@@ -29,7 +29,7 @@
 //
 using System;
 
-namespace ZENReports
+namespace sharpnldap
 {
 	/// <summary>
 	/// A enumeration of the different ZFD Application flags.
