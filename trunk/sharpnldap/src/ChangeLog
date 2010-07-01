@@ -1,3 +1,9 @@
+2010-07-01  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* LDAP.cs:
+	* LDAPUser.cs:
+	* ATTRNAME.cs: 
+
 2010-06-26  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* LDAPUser.cs: 

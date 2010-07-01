@@ -40,6 +40,7 @@ namespace sharpnldap
 		[DescriptionAttribute("APPBACKLINK")]APPBACKLINK,
 		[DescriptionAttribute("GIVENNAME")]GIVENNAME,
 		[DescriptionAttribute("MEMBERS")]MEMBERS,
+		[DescriptionAttribute("MEMBER")]MEMBER,
 		[DescriptionAttribute("APPASSOCIATIONS")]APPASSOCIATIONS,
 		[DescriptionAttribute("MEMBEROF")]MEMBEROF,
 		[DescriptionAttribute("SN")]SN,
@@ -50,6 +51,7 @@ namespace sharpnldap
 		[DescriptionAttribute("DISPLAYNAME")]DISPLAYNAME,
 		[DescriptionAttribute("EMPLOYEETYPE")]EMPLOYEETYPE,
 		[DescriptionAttribute("HOMEPHONE")]HOMEPHONE,
-		[DescriptionAttribute("TITLE")]TITLE		
+		[DescriptionAttribute("TITLE")]TITLE,
+		[DescriptionAttribute("SASLOGINSECRET")]SASLOGINSECRET
 	}
 }
