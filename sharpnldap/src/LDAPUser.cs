@@ -56,6 +56,7 @@ namespace sharpnldap
 		public string DISPLAYNAME		{ get;set; }
 		public string EMPLOYEETYPE		{ get;set; }
 		public string HOMEPHONE			{ get;set; }
+		public List<string> SASLOGINSECRET	{ get;set; }
 		
 		/// <summary>
 		/// Sets the user title attribute

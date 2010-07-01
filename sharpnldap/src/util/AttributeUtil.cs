@@ -99,6 +99,9 @@ namespace sharpnldap.util
 				if (AttrEquals(attribute, ATTRNAME.GIVENNAME))
 					user.setGivenName(AttributeUtil.getAttr(attrSet, ATTRNAME.GIVENNAME));
 				
+				if (AttrEquals(attribute, ATTRNAME.SASLOGINSECRET))
+					user.SASLOGINSECRET = AttributeUtil.getListofAttr(attrSet, ATTRNAME.SASLOGINSECRET);				
+				
 			}
 			return user;	
 		}		
@@ -142,7 +145,7 @@ namespace sharpnldap.util
 					grp.setCN(AttributeUtil.getAttr(attrSet, ATTRNAME.CN));				
 				
 				if (AttrEquals(attribute, ATTRNAME.MEMBERS))
-					grp.setGroupMembers( AttributeUtil.getListofAttr(attrSet, ATTRNAME.MEMBERS.ToString()));
+					grp.setGroupMembers( AttributeUtil.getListofAttr(attrSet, ATTRNAME.MEMBERS));
 			}
 			return grp;
 		}
@@ -172,7 +175,7 @@ namespace sharpnldap.util
 			{				
 				LdapAttribute attribute=(LdapAttribute)ienum.Current;			
 				if (AttrEquals(attribute, ATTRNAME.APPASSOCIATIONS))
-					app.setAssociations(AttributeUtil.getListofAttr(attrSet, ATTRNAME.APPASSOCIATIONS.ToString()));
+					app.setAssociations(AttributeUtil.getListofAttr(attrSet, ATTRNAME.APPASSOCIATIONS));
 				
 			}
 			return app;
@@ -190,9 +193,9 @@ namespace sharpnldap.util
 		/// <returns>
 		/// A <see cref="List<System.String>"/>
 		/// </returns>
-		public static List<string> getListofAttr(LdapAttributeSet attrSet, string attr) {
-			
-			if (attrSet.getAttribute(attr) == null)
+		public static List<string> getListofAttr(LdapAttributeSet attrSet, ATTRNAME attr) {
+			string sAttr = attr.ToString();
+			if (attrSet.getAttribute(sAttr) == null)
 				return null;
 
 			List<string> values = null;
@@ -201,9 +204,9 @@ namespace sharpnldap.util
 			while(ienum.MoveNext())
 			{
 				LdapAttribute attribute=(LdapAttribute)ienum.Current;
-				if (attribute.Name.ToUpper().Equals(attr)) {
-					values = new List<string>(attrSet.getAttribute(attr).StringValueArray.Length);
-					values.AddRange(attrSet.getAttribute(attr).StringValueArray); // take the values from the array
+				if (AttrEquals(attribute, attr)) {
+					values = new List<string>(attrSet.getAttribute(sAttr).StringValueArray.Length);
+					values.AddRange(attrSet.getAttribute(sAttr).StringValueArray); // take the values from the array
 					
 					if (Logger.LogLevel == Level.DEBUG) {
 						foreach (string x in values) //debug purposes
