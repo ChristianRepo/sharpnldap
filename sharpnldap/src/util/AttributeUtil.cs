@@ -95,13 +95,9 @@ namespace sharpnldap.util
 				
 				if (AttrEquals(attribute, ATTRNAME.SN))
 					user.setSN(AttributeUtil.getAttr(attrSet, ATTRNAME.SN));
-								
+				
 				if (AttrEquals(attribute, ATTRNAME.GIVENNAME))
 					user.setGivenName(AttributeUtil.getAttr(attrSet, ATTRNAME.GIVENNAME));
-				
-				if (AttrEquals(attribute, ATTRNAME.SASLOGINSECRET))
-					user.SASLOGINSECRET = AttributeUtil.getListofAttr(attrSet, ATTRNAME.SASLOGINSECRET);				
-				
 			}
 			return user;	
 		}		

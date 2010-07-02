@@ -1,18 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="src/ATTRNAME.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/util/AttributeUtil.cs" ctype="Workbench">
     <Files>
-      <File FileName="src/LDAP.cs" Line="366" Column="25" />
-      <File FileName="src/StringExtensions.cs" Line="30" Column="30" />
-      <File FileName="src/LDAPUser.cs" Line="31" Column="19" />
-      <File FileName="src/AttributeUtil.cs" Line="52" Column="72" />
-      <File FileName="src/ATTRNAME.cs" Line="48" Column="39" />
+      <File FileName="src/LDAP.cs" Line="289" Column="82" />
+      <File FileName="src/LDAPUser.cs" Line="59" Column="44" />
+      <File FileName="src/ATTRNAME.cs" Line="43" Column="41" />
+      <File FileName="src/util/AttributeUtil.cs" Line="208" Column="31" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
+        <State expanded="True" selected="True">
           <Node name="sharpnldap" expanded="True">
-            <Node name="src" expanded="True" selected="True" />
+            <Node name="src" expanded="True" />
           </Node>
         </State>
       </Pad>
