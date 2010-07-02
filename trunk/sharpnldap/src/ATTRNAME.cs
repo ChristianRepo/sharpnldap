@@ -51,7 +51,6 @@ namespace sharpnldap
 		[DescriptionAttribute("DISPLAYNAME")]DISPLAYNAME,
 		[DescriptionAttribute("EMPLOYEETYPE")]EMPLOYEETYPE,
 		[DescriptionAttribute("HOMEPHONE")]HOMEPHONE,
-		[DescriptionAttribute("TITLE")]TITLE,
-		[DescriptionAttribute("SASLOGINSECRET")]SASLOGINSECRET
+		[DescriptionAttribute("TITLE")]TITLE
 	}
 }
