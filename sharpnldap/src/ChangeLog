@@ -1,3 +1,7 @@
+2010-07-25  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* LDAP.cs: removed a useless debug entry
+
 2010-07-01  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* LDAPUser.cs:
