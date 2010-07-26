@@ -285,7 +285,6 @@ namespace sharpnldap
 				Logger.Debug("read dn {0}", x);
 				LdapEntry le = ldapConn.Read(x);
 				Logger.Debug("LDAP Entry Read {0}", le.getAttribute("cn").StringValue);
-				Logger.Debug("LDAP Entry Read Attribute count {0}", le.getAttributeSet().Count); 
 				members = AttributeUtil.getListofAttr(le.getAttributeSet(), ATTRNAME.MEMBER);
 			}
 			return members;
