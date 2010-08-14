@@ -37,6 +37,13 @@ namespace sharpnldap
 	public class LDAPZFDApp : LDAPObject
 	{
 		private List<string> assocations;
+				private const string objectclass = "appApplication";
+		public override string OBJECTCLASS
+		{
+			get{ 
+				return objectclass;
+			}
+		}
 		
 		public LDAPZFDApp (string x) {
 			dn = x;

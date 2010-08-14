@@ -29,6 +29,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using Syscert = System.Security.Cryptography.X509Certificates;
 using Novell.Directory.Ldap;
 using Novell.Directory.Ldap.Utilclass;
@@ -459,5 +460,26 @@ namespace sharpnldap
 			}	
 			return bHowToProceed;
 		}	
+		
+		/// <summary>
+		/// Saves changes made to existing ZFD 7 Application objects
+		/// </summary>
+		/// <param name="apps">
+		/// A <see cref="List<LDAPZFDApp>"/>
+		/// </param>
+		public void modifyZFDApp(List<LDAPZFDApp> apps) {
+			foreach (LDAPZFDApp app in apps)
+				modifyZFDApp(app);
+		}
+		/// <summary>
+		/// Saves changes made to an existing ZFD 7 Application object
+		/// </summary>
+		/// <param name="app">
+		/// A <see cref="LDAPZFDApp"/>
+		/// </param>
+		public void modifyZFDApp(LDAPZFDApp app) {
+
+		}
+	
 	}
 }

@@ -39,6 +39,14 @@ namespace sharpnldap
 	/// </summary>	
 	abstract public class LDAPObject
 	{
+		private const string objectclass = "LDAPObject";
+		/// <summary>
+		/// Returns the LDAP class type of an object.
+		/// </summary>
+		public abstract string OBJECTCLASS {
+			get;
+		}
+		
 		/// <summary>
 		/// Objects Common Name
 		/// </summary>

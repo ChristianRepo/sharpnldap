@@ -31,11 +31,16 @@ using System;
 
 namespace sharpnldap
 {
-
-
 	public class LDAPContainer : LDAPObject
 	{
-
+		private const string objectclass = "ou";
+		public override string OBJECTCLASS
+		{
+			get{ 
+				return objectclass;
+			}
+		}
+		
 		public LDAPContainer (string x) {
 			dn = x;
 		}

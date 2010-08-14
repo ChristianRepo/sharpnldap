@@ -57,5 +57,13 @@ namespace sharpnldap
 		public List<string> getGroupMembers() {
 			return this.members;
 		}		
+		
+		private const string objectclass = "group";
+		public override string OBJECTCLASS
+		{
+			get{ 
+				return objectclass;
+			}
+		}
 	}
 }
