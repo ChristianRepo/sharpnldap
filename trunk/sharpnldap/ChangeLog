@@ -1,3 +1,11 @@
+2010-08-14  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* tests: Created a test structure for the objects. Will be
+	  keeping enhancing the tests as I move forward.
+
+	* sharpnldap.sln:
+	* sharpnldap.csproj: 
+
 2010-07-01  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* sharpnldap.pidb:

@@ -45,6 +45,15 @@ namespace sharpnldap
 			dn = x;
 		}
 		private List<string> memberOf;
+		
+		private const string objectclass = "person";
+		public override string OBJECTCLASS
+		{
+			get{ 
+				return objectclass;
+			}
+		}
+		
 		/// <summary>
 		/// Contains the value which is read directly from eDirectory
 		/// </summary>	

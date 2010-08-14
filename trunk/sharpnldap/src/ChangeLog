@@ -1,3 +1,16 @@
+2010-08-14  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* LDAPUser.cs:
+	* LDAPGroup.cs:
+	* LDAPZFDApp.cs:
+	* LDAPObject.cs:
+	* LDAPContainer.cs: Contains the OBJECTCLASS value
+
+	* LDAP.cs: New methods to modify ZFD Application Objects. The
+	  method should compare exisitng values and compare to values
+	  in the object being saved. The methods are not complete, but
+	  only the structure exists
+
 2010-07-25  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* LDAP.cs: removed a useless debug entry
