@@ -64,7 +64,15 @@ namespace sharpnldap
 			return this.ndsHomeDirectory;
 		}
 		public string ndsHomeVolume		{ get;set; }
+		/// <summary>
+		/// Holds the path inside the volume of the users home directory.
+		/// This is any folder below the volume including the users home folder.
+		/// e.g. /users/students/jjennings
+		/// </summary>
 		public string ndsHomePath		{ get;set; }
+		/// <summary>
+		/// The server name holding the users home directory.
+		/// </summary>
 		public string ndsHomeServer		{ get;set; }
 		public string DEPARTMENTNUMBER	{ get;set; }
 		public string DISPLAYNAME		{ get;set; }
@@ -166,6 +174,7 @@ namespace sharpnldap
 		/// Strings the cn= or whatever object type that is normally specified in FQN LDAP syntax strings
 		/// returns the string of whatever was passed after the = character
 		/// </summary>
+		/// <remarks>This method can probably be replaced by AttributeUtil.ParseCNfromDN</remarks>
 		/// <param name="s">
 		/// A <see cref="System.String"/>
 		/// </param>

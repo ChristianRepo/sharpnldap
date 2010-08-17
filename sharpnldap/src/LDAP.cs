@@ -29,7 +29,6 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Collections;
 using Syscert = System.Security.Cryptography.X509Certificates;
 using Novell.Directory.Ldap;
 using Novell.Directory.Ldap.Utilclass;
@@ -140,6 +139,7 @@ namespace sharpnldap
 		/// 
 		/// Must specify the baseDN to search from.
 		/// </summary>
+		/// <exception cref="Exception">Exception is thrown if no users are found</exception>
 		/// <param name="cn">
 		/// A <see cref="System.String"/>
 		/// </param>
@@ -162,6 +162,7 @@ namespace sharpnldap
 		/// Specify the LDAP search criteria. SUB, One, BASE
 		/// These control if the search will searc subcontainers or not
 		/// </summary>
+		/// <exception cref="Exception">Exception is thrown if no users are found</exception>
 		/// <param name="cn">
 		/// A <see cref="System.String"/>
 		/// </param>
@@ -190,6 +191,7 @@ namespace sharpnldap
 		/// The param allAttrs specifies whether or not the property unknown attributes is populated
 		/// with attributes that have no match method (property in the LDAPUser object)
 		/// </summary>
+		/// <exception cref="Exception">Exception is thrown if no users are found</exception>
 		/// <param name="cn">
 		/// A <see cref="System.String"/>
 		/// </param>
@@ -364,6 +366,7 @@ namespace sharpnldap
 				Logger.Debug("read dn {0}", x);
 				LdapEntry le = ldapConn.Read(x);
 				Logger.Debug("LDAP Entry Read {0}", le.getAttribute("cn").StringValue);
+				Logger.Debug("LDAP Entry Read Attribute count {0}", le.getAttributeSet().Count); 
 				members = AttributeUtil.getListofAttr(le.getAttributeSet(), ATTRNAME.MEMBER);
 			}
 			return members;
