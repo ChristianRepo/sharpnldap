@@ -1,3 +1,9 @@
+2010-08-16  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* testLDAPUser.cs: new tests for ndsHomeDirectory
+
+	* TestZFDApp.cs: New test case
+
 2010-08-14  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* tests.mdproj:

@@ -28,6 +28,7 @@
 // (C) 2010 Jared L Jennings (jaredljennings@gmail.com)
 //
 using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Novell.Directory.Ldap;
 
@@ -212,5 +213,14 @@ namespace sharpnldap.util
 			}
 			return values;
 		}		
+		
+		/// <summary>
+		/// Returns the CN of a DN. 
+		/// Provide the DN e.g. cn=jjennings,o=users and the cn "jjennings" will be returned.
+		/// </summary>
+		public static string ParseCNfromDN(string dn) {
+			String a = dn.Substring(3).SubstringBefore(",");
+			return a;
+		}
 	}
 }

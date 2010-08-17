@@ -1,3 +1,15 @@
+2010-08-16  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* LDAPUser.cs: changed method for ndsHomeDirectory so that
+	  it's read only and the values is only populated by
+	  parseNdsHomeDirectory
+
+	* LDAP.cs: new code to support writting changes to eDirectory
+	  for ZFD Application objects
+
+	* LDAPObject.cs: Added code to return the CN value from the DN
+	  if the CN wasn't populated. Kinda a bug fix
+
 2010-08-14  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* LDAPUser.cs:

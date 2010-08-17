@@ -28,7 +28,10 @@
 // (C) 2010 Jared L Jennings (jaredljennings@gmail.com)
 //
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using System;
+using Novell.Directory.Ldap;
 
 namespace sharpnldap.util
 {
@@ -76,6 +79,35 @@ namespace sharpnldap.util
         {			
 			string v = i.Substring(i.Length -3, 1); //the the last value from e.g. "cn=app1,ou=apps,o=okc#1#0"
             return int.Parse(v);
-        }		
+        }
+		
+		/// <summary>
+		/// Compares current values in eDirectory with the values of the object that is to be written to eDirectory
+		/// The results are returned as an LdapModifications array
+		/// </summary>
+		/// <param name="newApp">
+		/// A <see cref="LDAPZFDApp"/>
+		/// </param>
+		/// <param name="oldApp">
+		/// A <see cref="LDAPZFDApp"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="LdapModification[]"/>
+		/// </returns>
+		internal static ArrayList BuildZFDAppModifications(LDAPZFDApp newApp, LDAPZFDApp oldApp) {
+			LdapAttribute attribute;
+			ArrayList modList = new ArrayList();
+
+			/* If associations list do not match, replace */
+			if (newApp.getZENAppAssociations().SequenceEqual(oldApp.getZENAppAssociations()) == false) {
+				
+				Logger.Debug("Current Associations and modified Associations do not match {0}", newApp.getDN()); 
+				
+				attribute = new LdapAttribute( "appAssociations", newApp.getZENAppAssociations().ToArray());
+				modList.Add( new LdapModification(LdapModification.REPLACE, attribute)); //Add to the list of mods
+			}
+			
+			return modList;	
+		}		
 	}
 }

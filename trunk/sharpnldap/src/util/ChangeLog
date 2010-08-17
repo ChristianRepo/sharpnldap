@@ -1,3 +1,8 @@
+2010-08-16  Jared L Jennings  <jaredljennings@gmail.com>
+
+	* ZFDAppUtils.cs:
+	* AttributeUtil.cs: new method
+
 2010-07-01  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* AttributeUtil.cs: 

@@ -15,11 +15,15 @@ namespace sharpnldap
 			List<string> members = new List<string>();
 			members.Add("cn=everyone,ou=groups,o=kc");
 			user.setGroupMemberOf(members);
-			Assert.AreSame("cn=user1,ou=users,o=kc", user.getDN());
-			Assert.AreSame("user1", user.getGivenName());
-			Assert.AreSame("jennings", user.getSN());
+			user.parseNdsHomeDirPath(@"cn=SOUTHSTUDENT_GENERAL,ou=ACHS,o=USD385#0#Home\2013\WildMC");
+			Assert.AreEqual("cn=user1,ou=users,o=kc", user.getDN());
+			Assert.AreEqual("user1", user.getGivenName());
+			Assert.AreEqual("jennings", user.getSN());
 			Assert.IsTrue(user.getGroupMemberOf().Contains("cn=everyone,ou=groups,o=kc"));
-			Assert.AreSame("person", user.OBJECTCLASS);
+			Assert.AreEqual("person", user.OBJECTCLASS);
+			Assert.AreEqual(@"Home\2013\WildMC", user.ndsHomePath);
+			Assert.AreEqual("SOUTHSTUDENT", user.ndsHomeServer);
+			Assert.AreEqual("GENERAL", user.ndsHomeVolume);
 		}
 	}
 }
