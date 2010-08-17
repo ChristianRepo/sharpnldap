@@ -1,3 +1,7 @@
+2010-08-17  jjennings  <${AuthorEmail}>
+
+	* LDAP.cs: 
+
 2010-08-16  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* LDAPUser.cs: changed method for ndsHomeDirectory so that
