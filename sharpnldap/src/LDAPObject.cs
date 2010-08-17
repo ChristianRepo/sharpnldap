@@ -29,6 +29,7 @@
 //
 using System;
 using System.Collections.Generic;
+using sharpnldap.util;
 
 namespace sharpnldap
 {
@@ -86,6 +87,9 @@ namespace sharpnldap
 			this.cn = s;
 		}
 		public string getCN() {
+			if (StringExtensions.IsEmpty(this.cn))
+				return AttributeUtil.ParseCNfromDN(this.dn);
+				
 			return this.cn;
 		}
 		

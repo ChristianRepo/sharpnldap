@@ -57,7 +57,12 @@ namespace sharpnldap
 		/// <summary>
 		/// Contains the value which is read directly from eDirectory
 		/// </summary>	
-		public string ndsHomeDirectory 	{ get;set; }
+		private string ndsHomeDirectory;
+		
+		public string getNdsHomeDirectory()
+		{ 
+			return this.ndsHomeDirectory;
+		}
 		public string ndsHomeVolume		{ get;set; }
 		public string ndsHomePath		{ get;set; }
 		public string ndsHomeServer		{ get;set; }
@@ -88,7 +93,7 @@ namespace sharpnldap
 			}
 			else {
 				string[] a = Regex.Split(s, @",");
-				string b = stripFQN(a[0]); // remove the cn=
+				string b = stripNdsHomeDirectory_FQN(a[0]); // remove the cn=
 				string[] c = Regex.Split(b, @"_"); // remove the volume from the server
 				
 				if (c[0] != null) // get the server from the string
@@ -102,7 +107,7 @@ namespace sharpnldap
 				 */
 				string p = s.SubstringAfter("#").SubstringAfter("#");
 				ndsHomePath = p;
-				ndsHomeDirectory = s;
+				this.ndsHomeDirectory = s;
 			}
 			
 		}
@@ -167,7 +172,7 @@ namespace sharpnldap
 		/// <returns>
 		/// A <see cref="System.String"/>
 		/// </returns>
-		private string stripFQN(string s) {
+		private string stripNdsHomeDirectory_FQN(string s) {
 			string[] a = Regex.Split(s, @"=");
 			Logger.Debug("stripFQN {0}", a[1]);
 			return a[1];

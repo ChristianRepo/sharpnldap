@@ -461,6 +461,14 @@ namespace sharpnldap
 			return bHowToProceed;
 		}	
 		
+		///<summary>Returns the specified object. Objects are specified by the DN.</summary>
+		public LDAPZFDApp getZFDApp(string dn) {
+			LdapEntry nextEntry = lc.Read(dn);
+			LDAPZFDApp app = AttributeUtil.iterZFDAppAttrs(nextEntry.getAttributeSet(), nextEntry.DN);
+			Logger.Debug("getZFDApp read entry {0}", nextEntry.DN);
+			return app;
+		}
+		
 		/// <summary>
 		/// Saves changes made to existing ZFD 7 Application objects
 		/// </summary>
@@ -478,8 +486,21 @@ namespace sharpnldap
 		/// A <see cref="LDAPZFDApp"/>
 		/// </param>
 		public void modifyZFDApp(LDAPZFDApp app) {
-
+			ArrayList modList;		
+			LDAPZFDApp existingApp = getZFDApp(app.getDN());
+			modList = ZFDAppUtils.BuildZFDAppModifications(app, existingApp);
+			LdapModification[] mods = new LdapModification[modList.Count]; 	
+			Type mtype=Type.GetType("Novell.Directory.LdapModification");
+			mods = (LdapModification[])modList.ToArray(typeof(LdapModification));
 		}
-	
+		
+		/// <summary>
+		/// Write list of LdapModifications to eDirectory
+		/// </summary>
+		private void WriteLdapChanges(LdapModification[] mods, string dn) {
+			//Modify the entry in the directory
+			lc.Modify ( dn, mods );	
+		}
+		
 	}
 }
