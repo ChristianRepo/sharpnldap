@@ -99,6 +99,15 @@ namespace sharpnldap.util
 				
 				if (AttrEquals(attribute, ATTRNAME.GIVENNAME))
 					user.setGivenName(AttributeUtil.getAttr(attrSet, ATTRNAME.GIVENNAME));
+				
+				if (AttrEquals(attribute, ATTRNAME.TITLE))
+					user.Title = AttributeUtil.getAttr(attrSet, ATTRNAME.TITLE);
+				
+				if (AttrEquals(attribute, ATTRNAME.HOMEPHONE))
+					user.HOMEPHONE = AttributeUtil.getAttr(attrSet, ATTRNAME.HOMEPHONE);
+				
+				if (AttrEquals(attribute, ATTRNAME.DISPLAYNAME))
+					user.DISPLAYNAME = AttributeUtil.getAttr(attrSet, ATTRNAME.DISPLAYNAME);
 			}
 			return user;	
 		}		
@@ -222,5 +231,37 @@ namespace sharpnldap.util
 			String a = dn.Substring(3).SubstringBefore(",");
 			return a;
 		}
+		
+	    static Dictionary<string, string> _dict = new Dictionary<string, string>
+	    {
+	        {"entry", "entries"},
+	        {"image", "images"},
+	        {"view", "views"},
+	        {"file", "files"},
+	        {"result", "results"},
+	        {"word", "words"},
+	        {"definition", "definitions"},
+	        {"item", "items"},
+	        {"megabyte", "megabytes"},
+	        {"game", "games"}
+	    };
+		
+		public static Dictionary<string, string> GetAttributes() {
+			return _dict;
+		}
+	    public static string GetPlural(string word)
+	    {
+	        // Try to get the result in the static Dictionary
+	        string result;
+	        if (_dict.TryGetValue(word, out result))
+	        {
+	            return result;
+	        }
+	        else
+	        {
+	            return null;
+	        }
+	    }
+		
 	}
 }
