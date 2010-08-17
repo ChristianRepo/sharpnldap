@@ -58,7 +58,13 @@ namespace sharpnldap
 		/// Contains the value which is read directly from eDirectory
 		/// </summary>	
 		private string ndsHomeDirectory;
-		
+		/// <summary>
+		/// Returns the raw string value that as stored in eDirectory.
+		/// This value is populated by <c>parseNdsHomeDirectory(string)</c>
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string getNdsHomeDirectory()
 		{ 
 			return this.ndsHomeDirectory;
