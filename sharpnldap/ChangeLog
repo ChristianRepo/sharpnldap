@@ -1,3 +1,9 @@
+2010-08-17  jjennings  <${AuthorEmail}>
+
+	* sharpnldap.pidb: methods for search for user objects
+
+	* sharpnldap.userprefs: 
+
 2010-08-16  Jared L Jennings  <jaredljennings@gmail.com>
 
 	* sharpnldap.csproj: 

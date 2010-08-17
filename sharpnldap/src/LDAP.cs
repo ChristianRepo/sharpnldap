@@ -134,13 +134,91 @@ namespace sharpnldap
 			return d;
 		}
 		
+		/// <summary>
+		/// Search for users with the specified CN.
+		/// Wild cards can be used for the search.
+		/// 
+		/// Must specify the baseDN to search from.
+		/// </summary>
+		/// <param name="cn">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="baseDN">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="List<LDAPUser>"/>
+		/// </returns>
+		public List<LDAPUser> findUsers(string cn, string baseDN) {
+			findUsers(cn, baseDN, LDAPConnOpts.SCOPE_SUB, false);
+		}
+		
+		/// <summary>
+		/// Search for users with the specified CN.
+		/// Wild cards can be used for the search.
+		/// 
+		/// Must specify the baseDN to search from.
+		/// 
+		/// Specify the LDAP search criteria. SUB, One, BASE
+		/// These control if the search will searc subcontainers or not
+		/// </summary>
+		/// <param name="cn">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="baseDN">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="lco">
+		/// A <see cref="LDAPConnOpts"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="List<LDAPUser>"/>
+		/// </returns>
 		public List<LDAPUser> findUsers(string cn, string baseDN, LDAPConnOpts lco) {
+			findUsers(cn, baseDN, lco, false);
+		}
+		
+		/// <summary>
+		/// Search for users with the specified CN.
+		/// Wild cards can be used for the search.
+		/// 
+		/// Must specify the baseDN to search from.
+		/// 
+		/// Specify the LDAP search criteria. SUB, One, BASE
+		/// These control if the search will searc subcontainers or not.
+		/// 
+		/// The param allAttrs specifies whether or not the property unknown attributes is populated
+		/// with attributes that have no match method (property in the LDAPUser object)
+		/// </summary>
+		/// <param name="cn">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="baseDN">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="lco">
+		/// A <see cref="LDAPConnOpts"/>
+		/// </param>
+		/// <param name="allAttrs">
+		/// A <see cref="System.Boolean"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="List<LDAPUser>"/>
+		/// </returns>
+		public List<LDAPUser> findUsers(string cn, string baseDN, LDAPConnOpts lco, bool allAttrs) {
+			findUsers(cn, baseDN, lco, allAttrs);
+		}
+		
+		private List<LDAPUser> findUsers(string cn, string baseDN, LDAPConnOpts lco, bool allAttrs) {
 			List<LDAPUser> users = new List<LDAPUser>();
 			if (StringExtensions.IsEmpty(cn))
 				cn = "*";
+			int x = LdapConnection.SCOPE_SUB;
+			if (lco != null)
+				x = lco;
 			
 			LdapSearchResults lsr = lc.Search(baseDN,
-			                                  (int)lco,
+			                                  x,
 			                                  "(&(objectClass=user)(cn=" + cn + "))",
 			                                  null,
 			                                  false
@@ -265,7 +343,7 @@ namespace sharpnldap
 				}
 			}		
 			return apps;
-		}			
+		}
 		
 		/// <summary>
 		/// Returns a List<string> of all the members of a specific group.
@@ -406,7 +484,8 @@ namespace sharpnldap
 				if(bindCount == 1)
 				{
 					Console.WriteLine ( " \n\nCERTIFICATE DETAILS: \n" );
-					Console.WriteLine ( " {0}X.509 v{1} Certificate", (x509.IsSelfSigned ? "Self-signed " : String.Empty), x509.Version);
+					Console.WriteLine ( " {0}X.509 v{1} Certificate", (x509.IsSelfSigned ? "Self-signed " : 
+					                                                   String.Empty), x509.Version);
 					Console.WriteLine ( "  Serial Number: {0}", CryptoConvert.ToHex (x509.SerialNumber));
 					Console.WriteLine ( "  Issuer Name:   {0}", x509.IssuerName);
 					Console.WriteLine ( "  Subject Name:  {0}", x509.SubjectName);
