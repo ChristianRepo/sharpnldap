@@ -28,6 +28,7 @@
 // (C) 2010 Jared L Jennings (jaredljennings@gmail.com)
 //
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Syscert = System.Security.Cryptography.X509Certificates;
 using Novell.Directory.Ldap;
@@ -150,7 +151,7 @@ namespace sharpnldap
 		/// A <see cref="List<LDAPUser>"/>
 		/// </returns>
 		public List<LDAPUser> findUsers(string cn, string baseDN) {
-			findUsers(cn, baseDN, LDAPConnOpts.SCOPE_SUB, false);
+			return doSearchForUsers(cn, baseDN, LDAPConnOpts.SCOPE_SUB, false);
 		}
 		
 		/// <summary>
@@ -176,7 +177,7 @@ namespace sharpnldap
 		/// A <see cref="List<LDAPUser>"/>
 		/// </returns>
 		public List<LDAPUser> findUsers(string cn, string baseDN, LDAPConnOpts lco) {
-			findUsers(cn, baseDN, lco, false);
+			return doSearchForUsers(cn, baseDN, lco, false);
 		}
 		
 		/// <summary>
@@ -208,13 +209,13 @@ namespace sharpnldap
 		/// A <see cref="List<LDAPUser>"/>
 		/// </returns>
 		public List<LDAPUser> findUsers(string cn, string baseDN, LDAPConnOpts lco, bool allAttrs) {
+			return doSearchForUsers(cn, baseDN, lco, false);
+		}
+		private List<LDAPUser> doSearchForUsers(string cn, string baseDN, LDAPConnOpts lco, bool allAttrs) {
 			List<LDAPUser> users = new List<LDAPUser>();
 			if (StringExtensions.IsEmpty(cn))
 				cn = "*";
-			int x = LdapConnection.SCOPE_SUB;
-			if (lco != null)
-				x = lco;
-			
+			int x = (int)lco;
 			LdapSearchResults lsr = lc.Search(baseDN,
 			                                  x,
 			                                  "(&(objectClass=user)(cn=" + cn + "))",
