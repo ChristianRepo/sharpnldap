@@ -208,10 +208,6 @@ namespace sharpnldap
 		/// A <see cref="List<LDAPUser>"/>
 		/// </returns>
 		public List<LDAPUser> findUsers(string cn, string baseDN, LDAPConnOpts lco, bool allAttrs) {
-			findUsers(cn, baseDN, lco, allAttrs);
-		}
-		
-		private List<LDAPUser> findUsers(string cn, string baseDN, LDAPConnOpts lco, bool allAttrs) {
 			List<LDAPUser> users = new List<LDAPUser>();
 			if (StringExtensions.IsEmpty(cn))
 				cn = "*";
