@@ -30,7 +30,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-
+using System.Reflection;
 using sharpnldap.util;
 
 namespace sharpnldap
@@ -60,7 +60,7 @@ namespace sharpnldap
 		private string ndsHomeDirectory;
 		/// <summary>
 		/// Returns the raw string value that as stored in eDirectory.
-		/// This value is populated by <c>parseNdsHomeDirectory(string)</c>
+		/// This value is populated by <c>parseNdsHomeDirPath(string)</c>
 		/// </summary>
 		/// <returns>
 		/// A <see cref="System.String"/>
@@ -225,6 +225,23 @@ namespace sharpnldap
 		public List<string> getGroupMemberOf() {
 			return this.memberOf;
 		}
-		
+		public void getMethod(string s) {
+			Type myType = typeof(LDAPUser);
+			MemberInfo[] myMembers = myType.GetMembers();
+			
+            for(int i = 0; i < myMembers.Length; i++)
+            {
+				Console.WriteLine ("Member name {0}", myMembers[i]);
+//                Object[] myAttributes = myMembers[i].GetCustomAttributes(true);
+//                if(myAttributes.Length > 0)
+//                {
+//                    Console.WriteLine("\nThe attributes for the member {0} are: \n", myMembers[i]);
+//                    for(int j = 0; j < myAttributes.Length; j++)
+//                        Console.WriteLine("The type of the attribute is {0}.", myAttributes[j].GetType());
+//                }
+            }
+			
+			
+		}
 	}
 }
