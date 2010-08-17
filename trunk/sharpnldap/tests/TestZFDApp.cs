@@ -64,6 +64,10 @@ namespace sharpnldap.util
 			Assert.AreEqual("user1", cn);
 		}
 			
+		[Test()]
+		public void Test_Caption_NotNull() {
+			Assert.IsNotNull(AttributeUtil.GetPlural("result"));
+		}
 			
 	}
 }
