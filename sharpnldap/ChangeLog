@@ -1,3 +1,7 @@
+2010-08-18  jjennings  <${AuthorEmail}>
+
+	* sharpnldap.csproj: 
+
 2010-08-17  jjennings  <${AuthorEmail}>
 
 	* sharpnldap.pidb: methods for search for user objects

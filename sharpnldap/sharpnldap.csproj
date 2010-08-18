@@ -57,6 +57,8 @@
     <Compile Include="tests\testLDAPZFDApp.cs" />
     <Compile Include="tests\testLDAPUser.cs" />
     <Compile Include="tests\TestZFDApp.cs" />
+    <Compile Include="src\util\LDAPUserUtils.cs" />
+    <Compile Include="src\util\LDAPUserAttrChange.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="lib\Novell.Directory.Ldap.dll" />
