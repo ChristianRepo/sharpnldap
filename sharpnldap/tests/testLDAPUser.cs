@@ -12,11 +12,6 @@ namespace sharpnldap
 	    {
 			
 			user = new LDAPUser("cn=user1,ou=users,o=kc");
-		}
-		[Test()]
-		public void TestCreateUser ()
-		{
-			user = new LDAPUser("cn=user1,ou=users,o=kc");
 			user.setGivenName("user1");
 			user.setSN("jennings");
 			List<string> members = new List<string>();
@@ -36,14 +31,24 @@ namespace sharpnldap
 			Assert.AreEqual("GENERAL", user.ndsHomeVolume);
 			Assert.AreEqual("Manager", user.Title);			
 			Assert.AreEqual("Jared L Jennings", user.DISPLAYNAME);
-			Assert.AreEqual("555.555.5555", user.HOMEPHONE);
+			Assert.AreEqual("555.555.5555", user.HOMEPHONE);		
 		}
-			
 		[Test()]
-		public void Test_GetMembers() {
-		
-			user = new LDAPUser("cn=user1,ou=users,o=kc");
-			user.getMethod("test");
+		public void Test_HomePath ()
+		{
+			Assert.AreEqual(@"Home\2013\WildMC", user.ndsHomePath);
+		}
+		[Test()]
+		public void Test_HomeServer ()
+		{
+			Assert.AreEqual("SOUTHSTUDENT", user.ndsHomeServer);
+			Assert.AreEqual("GENERAL", user.ndsHomeVolume);
+		}	
+		[Test()]
+		public void Test_HomeVolume ()
+		{
+
+			Assert.AreEqual("GENERAL", user.ndsHomeVolume);
 		}
 	}
 }
